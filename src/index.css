@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    background-image: linear-gradient(to left top, #080d1a, #0c0814, #0c050d, #080205, #000000);
+    min-height: 100vh;
+    color: white;
+}
+
+* {
+    transition: ease-in-out .15s all;
+}
+
+button, a, label, input{
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+.create{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255, 0.3);
+    padding: 8px 32px;
+    letter-spacing: 1px;
+    &:hover{
+        transform: scale(1.1);
+    }
+    &:disabled{
+        border-top: 2px solid rgba(255,255,255, 0.3);
+        border-left: 2px solid rgba(255,255,255, 0.3);
+        border-radius: 100%;
+        background-color: transparent;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        font-size: 0;
+        cursor: not-allowed;
+        animation: spin infinite 1s ease-in;
+    }
+}
+
+.pageTitle{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.modalContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.modalContainer h1{
+    font-size: 24px;
+}
+.formArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+}
+.typeText{
+    width: 100%;
+    background-color: rgba(255,255,255, 0.2);
+    padding: 16px;
+}
+.buttons{
+    margin-top: 64px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 16px;
+}
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@media (min-width:768px){
+    .mainScreen{
+        width: calc(100% - 320px);
+        margin-left: 320px;
+    }
+}
