@@ -9,7 +9,7 @@ import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from 
 import DeleteAccount from "../../components/modals/settings/deleteAccount";
 
 function Settings(){
-    const {userData} = useContext(AuthContext);
+    const {userData,signout} = useContext(AuthContext);
     const [name, setName] = useState(userData.Name? userData.Name : '');
     const [lastName, setLastName] = useState(userData.LastName? userData.LastName : '');
     const [inputEdit, setInputEdit] = useState(true);
