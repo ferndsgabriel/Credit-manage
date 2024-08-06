@@ -35,13 +35,14 @@ function DeleteCard({ isOpen, closeModal, item }) {
                 const firstDoc = getQuery.docs[0];
                 const docRef = doc(db, "Cards", firstDoc.id);
 
-                const queryShopping = query(collection(db, "Shopping"), where('CardRef', '==', docRef));
+                const queryShopping = query(collection(db, "Shoppings"), where('CardRef', '==', docRef));
                 const getShopping = await getDocs(queryShopping);
 
                 if (!getShopping.empty) {
                     toast.warning('Não é possível deletar este cartão, pois há compras associadas a ele.');
                     setLoading(false);
                     closeModal();
+                    return;
                 } else {
                     await deleteDoc(docRef).then(() => {
                         toast.success('cartão deletada com sucesso');

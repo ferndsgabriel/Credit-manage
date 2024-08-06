@@ -5,12 +5,13 @@ import { FaRegCreditCard } from "react-icons/fa";
 import { BsFillPersonFill } from "react-icons/bs";
 import { MdOutlineWbSunny, MdOutlineAttachMoney } from "react-icons/md";
 import { Link } from "react-router-dom";
-
-
+import icon from "../../assets/navegadoriconwhite.svg";
+import { useContext } from "react";
+import {AuthContext} from "../../contexts/AuthContext";
 
 function Header(){
     const navRef = useRef(null);
-
+    const { signout} = useContext(AuthContext);
     function openNav(){
         if (navRef.current){
             navRef.current.classList.remove('hidden');
@@ -29,7 +30,7 @@ function Header(){
         <>
             <header className="fixed top-0 left-0 flex items-center justify-between w-full h-20 p-4 bg-dark1 md:hidden">
                 <Link to={'/'}>
-                    <img src="./navegadoriconwhite.svg" alt="icon"
+                    <img src={icon} alt="icon"
                     className="w-12"/>
                 </Link>
 
@@ -46,7 +47,7 @@ function Header(){
                 </button>
                 
                 <Link to={'/'} className="md:w-full">
-                    <img src="./navegadoriconwhite.svg" alt="icon"
+                    <img src={icon} alt="icon"
                     className="hidden w-10 mt-8 md:flex"/>
                 </Link>
 
@@ -55,7 +56,7 @@ function Header(){
                     <div className="flex flex-col items-end w-full gap-4 md:items-start">
                         <span className="text-xs text-dark6">Visualizar</span>
                         <ul className="w-full">
-                            <Link>
+                            <Link to={'/'}>
                                 <li className="flex items-center justify-end w-full gap-4 p-2 hover:bg-dark5 md:justify-start">
                                     <MdOutlineAttachMoney className="text-base"/> 
                                     <span className="text-xs">Gastos</span>
@@ -67,7 +68,7 @@ function Header(){
                     <div className="flex flex-col items-end w-full gap-4 md:items-start">
                         <span className="text-xs text-dark6">Cadastrar</span>
                         <ul className="flex flex-col w-full gap-4">
-                            <Link>
+                            <Link to={"/shopping"}>
                                 <li className="flex items-center justify-end w-full gap-4 p-2 hover:bg-dark5 md:justify-start">
                                     <BiSolidPurchaseTagAlt  className="text-base"/> 
                                     <span className="text-xs">Compras</span>
@@ -91,16 +92,10 @@ function Header(){
                     <div className="flex flex-col items-end w-full gap-4 md:items-start">
                         <span className="text-xs text-dark6">Configurações</span>
                         <ul className="flex flex-col w-full gap-4">
-                            <Link>
+                            <Link to={'/settings'}>
                                 <li className="flex items-center justify-end w-full gap-4 p-2 hover:bg-dark5 md:justify-start">
                                     <IoIosSettings className="text-base"/> 
                                     <span className="text-xs">Conta</span>
-                                </li>
-                            </Link>
-                            <Link>
-                                <li className="flex items-center justify-end w-full gap-4 p-2 hover:bg-dark5 md:justify-start">
-                                    <MdOutlineWbSunny  className="text-base"/> 
-                                    <span className="text-xs">Tema</span>
                                 </li>
                             </Link>
                         </ul>
@@ -109,12 +104,12 @@ function Header(){
                     <div className="flex flex-col items-end w-full gap-4 md:items-start">
                         <span className="text-xs text-dark6">Conta</span>
                         <ul className="w-full">
-                            <Link>
+                            <button onClick={signout} className="w-full">
                                 <li className="flex items-center justify-end w-full gap-4 p-2 hover:bg-dark5 md:justify-start">
                                     <IoIosLogOut className="text-base"/> 
                                     <span className="text-xs">Sair</span>
                                 </li>
-                            </Link>
+                            </button>
                         </ul>
                     </div>
                 </div>

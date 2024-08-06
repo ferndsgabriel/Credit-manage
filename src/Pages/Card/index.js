@@ -21,6 +21,7 @@ function Card() {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [itens, setItens] = useState({});
 
+    
     function openModal() {
         setIsOpen(true);
     }
@@ -96,19 +97,15 @@ function Card() {
                         <article className="flex flex-col flex-wrap items-start gap-4 md:flex-row border-dark5">
                             {cards.map((item, index) => (
                                 <div key={index} className={`bg-[${item.Color}] p-4 rounded-2xl flex flex-col gap-32 w-full max-w-md aspect-card border-2 border-dark5`}>
-                                    <div className="flex items-start justify-between">
-                                        <div className="text-dark6">
-                                            <p>Fechamento: dia {item.PayDay}</p>
-                                            <p>Limite: R$ {item.Limit},00</p>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-xl">
-                                            <button onClick={()=>openModalEdit(item)}><MdEdit className="duration-200 hover:scale-110"/></button>
-                                            <EditCard isOpen={isOpenEdit} closeModal={closeModalEdit} item={itens}/>
-                                            <button onClick={()=>openModalDelete(item)}><IoMdClose className="duration-200 hover:scale-110"/></button>
-                                            <DeleteCard isOpen={isOpenDelete} closeModal={closeModalDelete} item={itens}/>
-                                        </div>
+                                    <div className="flex items-center justify-end gap-2 text-xl">
+                                        <button onClick={()=>openModalEdit(item)}><MdEdit className="duration-200 hover:scale-110"/></button>
+                                        <EditCard isOpen={isOpenEdit} closeModal={closeModalEdit} item={itens}/>
+                                        <button onClick={()=>openModalDelete(item)}><IoMdClose className="duration-200 hover:scale-110"/></button>
+                                        <DeleteCard isOpen={isOpenDelete} closeModal={closeModalDelete} item={itens}/>
                                     </div>
+                                    
                                     <div>
+                                        <p>Fechamento: dia {item.PayDay}</p>
                                         <p className="text-2xl font-bold"
                                         >{item.Name}</p>
                                     </div>

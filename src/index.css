@@ -11,12 +11,20 @@ body{
 * {
     transition: ease-in-out .15s all;
 }
-
+img{
+    user-select: none;
+}
 button, a, label, input{
     cursor: pointer;
     outline: none;
     border: none;
     background-color: transparent;
+}
+select,option{
+    background-color: #080d1a;
+    color: white;
+    outline: none;
+    border: none;
 }
 
 .create{

@@ -11,7 +11,6 @@ function CreateCard({ isOpen, closeModal }) {
     const [indexColor, setIndexColor] = useState(0);
     const nameRef = useRef(null);
     const dayRef = useRef(null);
-    const limitRef = useRef(null);
     const { userData } = useContext(AuthContext);
     const uid = userData.Uid;
 
@@ -27,14 +26,13 @@ function CreateCard({ isOpen, closeModal }) {
         
         const nameValue = nameRef.current?.value;
         const dayValue = dayRef.current?.value;
-        const limitValue = limitRef.current?.value;
 
-        if (!nameValue || !dayValue || !limitValue) {
+        if (!nameValue || !dayValue) {
             toast.warning('Por favor, preencha todos os campos');
             return;
         }
-        if (dayValue <= 0 || limitValue <= 0) {
-            toast.warning('Os valores devem ser maiores que zero');
+        if (dayValue <= 0) {
+            toast.warning('Dia de fechamento do cartão inválido');
             return;
         }
         if (dayValue > 30) {
@@ -53,9 +51,8 @@ function CreateCard({ isOpen, closeModal }) {
                 Id: timestamp,
                 Name: nameValue,
                 PayDay: parseInt(dayValue),
-                Limit: parseInt(limitValue),
                 Color: colors[indexColor].toString(),
-                UserRef: userRef
+                UserRef: userRef,
             });
             toast.success('Cartão criado com sucesso');
             closeModal();
@@ -73,16 +70,16 @@ function CreateCard({ isOpen, closeModal }) {
                 <h1>Criar cartão</h1>
                 <p>Os cartões são utilizados para registrar as compras realizadas.</p>
                 <div className="formArea">
-                    <input 
-                        placeholder="Digite um nome:" 
-                        className="typeText" 
-                        required={true} 
-                        minLength={3} 
-                        maxLength={30} 
-                        autoFocus={true}
-                        ref={nameRef}
-                    />
                     <div className="flex items-center gap-4">
+                        <input 
+                            placeholder="Digite um nome:" 
+                            className="typeText" 
+                            required={true} 
+                            minLength={3} 
+                            maxLength={30} 
+                            autoFocus={true}
+                            ref={nameRef}
+                        />
                         <input 
                             placeholder="Digite o dia de fechamento" 
                             className="typeText" 
@@ -91,15 +88,6 @@ function CreateCard({ isOpen, closeModal }) {
                             maxLength={2} 
                             type="number"
                             ref={dayRef}
-                        />
-                        <input 
-                            placeholder="Digite o limite do cartão" 
-                            className="typeText" 
-                            required={true} 
-                            minLength={3} 
-                            maxLength={10} 
-                            type="number"
-                            ref={limitRef}
                         />
                     </div>
                     <div className="flex flex-col gap-2">

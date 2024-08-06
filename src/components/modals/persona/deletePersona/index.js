@@ -32,6 +32,7 @@ function DeletePersona({ isOpen, closeModal, personaId, personaName }) {
                     toast.warning('Não é possível deletar esta persona, pois há compras associadas a ela.');
                     setLoading(false);
                     closeModal();
+                    return;
                 } else {
                     await deleteDoc(docRef).then(() => {
                         toast.success('Persona deletada com sucesso');

@@ -4,13 +4,17 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RoutesApp from './routes';
 import AuthProvider from './contexts/AuthContext';
+import InstallmentsPaidProvider from './contexts/InstallmentsPaid';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <AuthProvider>
-          <RoutesApp />
+          <InstallmentsPaidProvider>
+            <RoutesApp />
+          </InstallmentsPaidProvider>
+          
         </AuthProvider>
         <ToastContainer
           position="bottom-center"

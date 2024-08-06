@@ -10,6 +10,9 @@ import Recovery from "./Pages/Recovery";
 import Start from "./Pages/Start";
 import Persona from "./Pages/Persona";
 import Card from "./Pages/Card";
+import Shoppings from "./Pages/Shopping";
+import ShoppingId from "./Pages/ShoppingId";
+import Settings from "./Pages/Settings";
 
 export default function RoutesApp() {
     const { isAuthenticated, loadingPage } = useContext(AuthContext);
@@ -33,6 +36,9 @@ export default function RoutesApp() {
                     <Route path="/" element={<Start />} />
                     <Route path="/persona" element={<Persona />} />
                     <Route path="/card" element={<Card/>} />
+                    <Route path="/shopping" element={<Shoppings/>} />
+                    <Route path="/shopping/:id" element={<ShoppingId/>} />
+                    <Route path="/settings" element={<Settings/>} />
                 </Routes>
             )}
         </>

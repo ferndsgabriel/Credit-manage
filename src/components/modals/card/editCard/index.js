@@ -1,9 +1,7 @@
 import Modal from "../../default";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { db } from "../../../../firebase/config";
-import { AuthContext } from "../../../../contexts/AuthContext";
-import { useContext } from "react";
 import { getDocs, collection, doc, query, updateDoc, where } from "firebase/firestore";
 
 function EditCard({ isOpen, closeModal, item }) {
@@ -11,15 +9,11 @@ function EditCard({ isOpen, closeModal, item }) {
     const [indexColor, setIndexColor] = useState(0);
     const [nameInput, setNameInput] = useState('');
     const [dayInput, setDayInput] = useState(null);
-    const [limitInput, setLimitInput] = useState(null)
-    const { userData } = useContext(AuthContext);
-    const uid = userData.Uid;
 
     useEffect(() => {
         if (isOpen) {
             setNameInput(item.Name);
             setDayInput(item.PayDay);
-            setLimitInput(item.Limit);
 
             const colorIndex = colors.indexOf(item.Color);
             setIndexColor(colorIndex !== -1 ? colorIndex : 0);
@@ -31,7 +25,6 @@ function EditCard({ isOpen, closeModal, item }) {
     function resetForm() {
         setNameInput('');
         setDayInput(null);
-        setLimitInput(null);
         setIndexColor(0);
     }
     
@@ -45,12 +38,12 @@ function EditCard({ isOpen, closeModal, item }) {
     async function handleEdit(e) {
         e.preventDefault();
 
-        if (!nameInput || !dayInput || !limitInput) {
+        if (!nameInput || !dayInput) {
             toast.warning('Por favor, preencha todos os campos');
             return;
         }
-        if (dayInput <= 0 || limitInput <= 0) {
-            toast.warning('Os valores devem ser maiores que zero');
+        if (dayInput <= 0) {
+            toast.warning('Dia de fechamento do cartão inválido');
             return;
         }
         if (dayInput > 30) {
@@ -68,7 +61,6 @@ function EditCard({ isOpen, closeModal, item }) {
             await updateDoc(docRef,{
                 Name: nameInput,
                 PayDay: parseInt(dayInput),
-                Limit: parseInt(limitInput),
                 Color: colors[indexColor].toString(),
             }).then(()=>{
                 toast.success('Cartão editado com sucesso');
@@ -111,16 +103,6 @@ function EditCard({ isOpen, closeModal, item }) {
                             type="number"
                             value={dayInput}
                             onChange={(e)=>setDayInput(e.target.value)}
-                        />
-                        <input 
-                            placeholder="Digite o limite do cartão" 
-                            className="typeText" 
-                            required={true} 
-                            minLength={3} 
-                            maxLength={10} 
-                            type="number"
-                            value={limitInput}
-                            onChange={(e)=>setLimitInput(e.target.value)}
                         />
                     </div>
                     <div className="flex flex-col gap-2">

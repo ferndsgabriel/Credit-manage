@@ -4,3 +4,4 @@ export default function FormatName(name){
     const nameRest = nameLower.substring(1);
     return `${getFirstLetter}${nameRest}`;
 }
+

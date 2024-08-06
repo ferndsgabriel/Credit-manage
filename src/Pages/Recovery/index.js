@@ -26,6 +26,7 @@ function Recovery() {
             await sendCodRecovery(emailValue);
         }catch(error){
             console.log(error);
+            toast.error('Email não encontrado')
         }finally{
             setIsLoadingButton(false);
         }
