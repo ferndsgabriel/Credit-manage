@@ -57,26 +57,31 @@ function Shoppings() {
                 let listThisMonth = [];
                 let list = [];
                 getMyQuery.forEach((item)=>{
-                    if (formatToFindDB(item.data().ShoppingDate) == formatToFind){
-                        listThisMonth.push(item.data());
+                    const itemData = item.data();
+                    if (formatToFindDB(itemData.ShoppingDate) === formatToFind){
+                        listThisMonth.push(itemData);
                     } else {
-                        list.push(item.data());
+                        list.push(itemData);
                     }
                 });
+    
+                // Ordena as listas pela data de compra (decrescente)
+                listThisMonth.sort((a, b) => b.ShoppingDate.localeCompare(a.ShoppingDate));
+                list.sort((a, b) => b.ShoppingDate.localeCompare(a.ShoppingDate));
+                
                 setShoppingList(list);
                 setShoppingListThisMonth(listThisMonth);
             }
         }
         getShoppings().then(()=>{
-            console.log('get sucess');
+            console.log('get success');
         }).catch((error)=>{
             console.log(error);
         }).finally(()=>{
             setLoading(false);
-        })
-        
+        });
     }, [closeModal]);
-
+    
     
     if (loading){
         return <Loading/>

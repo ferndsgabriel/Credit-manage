@@ -8,6 +8,9 @@ import { addDoc, collection, doc, getDocs, query, where, getDoc } from "firebase
 import Loading from "../../../loading";
 import formatDateToYYYYMMDD from "../../../../utils/formatDate";
 import calcularParcelasRestantes from "../../../../utils/parcelasRestantes";
+import DatePicker, { registerLocale } from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import pt from 'date-fns/locale/pt-BR';
 
 function CreateShopping({ isOpen, closeModal }) {
     const [loading, setLoading] = useState(false);
@@ -20,7 +23,7 @@ function CreateShopping({ isOpen, closeModal }) {
     const personaRef = useRef(null);
     const cardRef = useRef(null);
     const date = new Date();
-    const [shoppingDate, setShoppingDate] = useState(formatDateToYYYYMMDD(date));
+    const [shoppingDate, setShoppingDate] = useState(date);
     const [optionsPersonas, setOptionsPersonas] = useState([]);
     const [optionsCards, setOptionsCards] = useState([]);
 
@@ -92,7 +95,7 @@ function CreateShopping({ isOpen, closeModal }) {
             }
     
             const firstCard = getCard.docs[0].ref;
-            const firstPersona = getPersona.docs[0].ref; // Captura a referência da persona corretamente
+            const firstPersona = getPersona.docs[0].ref; 
     
             const userRef = doc(db, "Users", uid);
             const timestamp = new Date().getTime();    
@@ -105,19 +108,20 @@ function CreateShopping({ isOpen, closeModal }) {
                 setLoading(false);
                 return;
             }
-    
-            const remainingInstallments = calcularParcelasRestantes(shoppingDate, formatDateToYYYYMMDD(new Date()), firstCard.PayDay, installmentValue);
-    
+            
+            const formatMyDate = new Date(shoppingDate);
+            const formatToDb = (formatDateToYYYYMMDD(formatMyDate));
+        
             await addDoc(collection(db, "Shoppings"), {
                 Id: timestamp,
                 Name: nameValue,
                 Price: priceValue.toFixed(2),
                 Installments: installmentValue,
-                ShoppingDate: shoppingDate,
+                ShoppingDate: (formatToDb),
                 UserRef: userRef,
                 CardRef: firstCard,
-                PersonaRef: firstPersona, // Garantindo que a referência da persona não é nula
-                RemainingInstallments: remainingInstallments,
+                PersonaRef: firstPersona, 
+
                 IsFinished: false
             });
     
@@ -142,7 +146,7 @@ function CreateShopping({ isOpen, closeModal }) {
                 setLoadingPage(false);
             }
         }else{
-            setShoppingDate(formatDateToYYYYMMDD(date));
+            setShoppingDate((date));
         }
     }, [isOpen]);
 
@@ -192,13 +196,12 @@ function CreateShopping({ isOpen, closeModal }) {
                                 
                                 <label className="flex flex-col gap-2">
                                     <p>Quando comprou?</p>
-                                    <input 
-                                        placeholder="Data da compra:" 
-                                        className="typeText" 
-                                        required={true} 
-                                        type="date"
-                                        value={shoppingDate}
-                                        onChange={(e) => setShoppingDate(e.target.value)}
+                                    <DatePicker
+                                        selected={shoppingDate}
+                                        onChange={(date) => setShoppingDate(date)}
+                                        dateFormat="dd/MM/yyyy"
+                                        locale="pt"
+                                        className="typeText"
                                     />
                                 </label>
                                 
