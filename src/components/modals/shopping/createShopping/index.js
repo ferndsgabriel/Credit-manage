@@ -95,6 +95,7 @@ function CreateShopping({ isOpen, closeModal }) {
             }
     
             const firstCard = getCard.docs[0].ref;
+            const firstCardData = getCard.docs[0].data();
             const firstPersona = getPersona.docs[0].ref; 
     
             const userRef = doc(db, "Users", uid);
@@ -112,6 +113,10 @@ function CreateShopping({ isOpen, closeModal }) {
             const formatMyDate = new Date(shoppingDate);
             const formatToDb = (formatDateToYYYYMMDD(formatMyDate));
         
+            
+
+            const remainingInstallments = calcularParcelasRestantes(firstCardData.PayDay, formatToDb,  installmentValue);
+
             await addDoc(collection(db, "Shoppings"), {
                 Id: timestamp,
                 Name: nameValue,
@@ -121,7 +126,7 @@ function CreateShopping({ isOpen, closeModal }) {
                 UserRef: userRef,
                 CardRef: firstCard,
                 PersonaRef: firstPersona, 
-
+                RemainingInstallments: remainingInstallments,
                 IsFinished: false
             });
     
