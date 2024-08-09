@@ -28,7 +28,7 @@ function Header(){
 
     return(
         <>
-            <header className="fixed top-0 left-0 flex items-center justify-between w-full h-20 p-4 bg-dark1 md:hidden">
+            <header className="fixed top-0 left-0 z-50 flex items-center justify-between w-full h-20 p-4 bg-dark1 md:hidden">
                 <Link to={'/'}>
                     <img src={icon} alt="icon"
                     className="w-12"/>
@@ -40,7 +40,7 @@ function Header(){
             </header>
             
             <nav ref={navRef} 
-            className="fixed top-0 right-0 flex-col items-end hidden h-screen p-6 overflow-auto shadow-2xl bg-dark1 w-80 shadow-black rounded-l-2xl md:flex md:rounded-none md:left-0">
+            className="fixed top-0 right-0 z-50 flex-col items-end hidden h-screen p-6 overflow-auto shadow-2xl bg-dark1 w-80 shadow-black rounded-l-2xl md:flex md:rounded-none md:left-0">
 
                 <button onClick={closeNav} className="md:hidden">
                     <IoMdClose className="text-2xl"/>
