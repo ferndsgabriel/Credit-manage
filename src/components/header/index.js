@@ -77,7 +77,7 @@ function Header(){
                             <Link to={'/card'}>
                                 <li className="flex items-center justify-end w-full gap-4 p-2 hover:bg-dark5 md:justify-start">
                                     <FaRegCreditCard  className="text-base"/> 
-                                    <span className="text-xs">Cartão</span>
+                                    <span className="text-xs">Cartões</span>
                                 </li>
                             </Link>
                             <Link to={'/persona'}>
