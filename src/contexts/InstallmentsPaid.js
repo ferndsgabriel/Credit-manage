@@ -82,7 +82,7 @@ export default function InstallmentsPaidProvider({children}) {
     }
 
     return (
-        <InstallmentsPaidContext.Provider value={{ /* Pass any context values here */ }}>
+        <InstallmentsPaidContext.Provider value={{  }}>
             {children}
         </InstallmentsPaidContext.Provider>
     );

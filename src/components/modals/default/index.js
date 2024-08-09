@@ -23,7 +23,7 @@ const Modal = memo(function ModalComponent({ children, isOpen, closeModal }) {
         <>
             {isOpen ? (
                 <div onClick={closeModal}
-                    className="fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-dark5">
+                    className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-screen bg-dark5">
                     <div className='w-full max-w-xl p-4 overflow-auto bg-dark1'
                         onClick={(e) => dontClose(e)}>
                         {children}
