@@ -17,7 +17,6 @@ function Start(){
     const userRef = doc(db, "Users", uid);
     const [shoppings, setShoppings] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [total, setTotal] = useState('00');
     const [filterMonth, setFilterMonth] = useState(0);
     const [limitFilter, setLimitFilter] = useState(false);
     const [cards, setCards] = useState([]);
@@ -25,7 +24,6 @@ function Start(){
     const [cardRef, setCardRef] = useState(null);
     const [personasRef, setPersonasRef] = useState(null);
     const navigate = useNavigate();
-
 
 
     // bloco para obter o nome dos meses
@@ -57,14 +55,11 @@ function Start(){
             const getShoppings = await getDocs(shoppingsQuery);
             
             if (!getShoppings.empty) {
-                let total = 0;
                 let limit = false; 
                 let list = [] 
                 for (const item of getShoppings.docs) {   
                     const calculateWithMonth = parseInt(item.data().RemainingInstallments) - filterMonth;
                     if (calculateWithMonth > 0) {
-                        const withInstallments = (item.data().Price / item.data().Installments);
-                        total += parseInt(withInstallments);
                         list.push(item.data());
                     } 
                 }
@@ -77,7 +72,6 @@ function Start(){
                     }
                 }
     
-                setTotal(total);
                 setLimitFilter(limit);
                 setShoppings(list);
             } else {
@@ -133,18 +127,6 @@ function Start(){
     function navigatePage(id){
         navigate(`/shopping/${id}`)
     }
-    
-    const withFilters = shoppings.filter((item) => {
-        if (cardRef && personasRef) {
-            return item.CardRef.id === cardRef.id && item.PersonaRef.id === personasRef.id;
-        }
-        else if (cardRef) {
-            return item.CardRef.id === cardRef.id;
-        } else if (personasRef) {
-            return item.PersonaRef.id === personasRef.id;
-        }
-        return [];
-    });
 
     async function handleChangeCard(e) {
         const id = e.target.value;
@@ -182,6 +164,33 @@ function Start(){
             }
         }
     }
+    
+    const withFilters = shoppings.filter((item) => {
+        if (cardRef && personasRef) {
+            return item.CardRef.id === cardRef.id && item.PersonaRef.id === personasRef.id;
+        }
+        else if (cardRef) {
+            return item.CardRef.id === cardRef.id;
+        } else if (personasRef) {
+            return item.PersonaRef.id === personasRef.id;
+        }
+        return [];
+    });
+
+    const total = shoppings && shoppings.length > 0 ? 
+    shoppings.reduce((acc, item) => {
+        const result = item.Price / item.Installments;
+        return acc + result;
+    }, 0) 
+    : 0;
+
+    const totalWithFilter = withFilters && withFilters.length > 0 ? 
+    withFilters.reduce((acc, item) => {
+        const result = item.Price / item.Installments;
+        return acc + result;
+    }, 0) 
+    : null;
+
     
     if (loading){
         return <Loading/>
@@ -258,7 +267,13 @@ function Start(){
                     
                     {shoppings && shoppings.length > 0 &&(
                         <div className="flex flex-col w-full gap-6">
-                            <h2 className="font-bold">Total: R$ {total},00</h2> 
+                            <h2 className="font-bold">Total: R$ {
+                                totalWithFilter !== null ?(
+                                    totalWithFilter.toFixed(2)
+                                ):(
+                                    total.toFixed(2)
+                                )
+                            }</h2> 
                             <table>
                             <thead className="pb-16">
                                 <tr>
