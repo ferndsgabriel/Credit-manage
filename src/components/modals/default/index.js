@@ -1,41 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
-function Modal({children, isOpen, closeModal}){
+const Modal = memo(function ModalComponent({ children, isOpen, closeModal }) {
 
-    function dontClose(e){
+    function dontClose(e) {
         e.stopPropagation();
     }
 
-
-    useEffect(()=>{
-        function closeWithEsc(e){
-            if (e.key === 'Escape'){
+    useEffect(() => {
+        function closeWithEsc(e) {
+            if (e.key === 'Escape') {
                 closeModal();
-            }else{
-                return;
             }
         }
-        document.addEventListener('keydown',closeWithEsc);
+        document.addEventListener('keydown', closeWithEsc);
 
-        return(()=>{
-            document.removeEventListener('keydown',closeWithEsc);
-        })
-    },[])
-    
-    
-    return(
+        return () => {
+            document.removeEventListener('keydown', closeWithEsc);
+        };
+    }, [closeModal]);
+
+    return (
         <>
-            {isOpen?(
+            {isOpen ? (
                 <div onClick={closeModal}
-                className="fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-dark5">
+                    className="fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-dark5">
                     <div className='w-full max-w-xl p-4 overflow-auto bg-dark1'
-                    onClick={(e)=>dontClose(e)}>
+                        onClick={(e) => dontClose(e)}>
                         {children}
                     </div>
                 </div>
-            ):null}
+            ) : null}
         </>
-    )
-}
+    );
+});
 
 export default Modal;

@@ -1,5 +1,5 @@
 import Header from "../../components/header";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { collection, doc, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../firebase/config";
@@ -23,9 +23,11 @@ function Shoppings() {
         setIsOpenCreate(true);
     }
 
-    function closeModal() {
+    
+    const closeModal = useCallback (() =>{
         setIsOpenCreate(false);
-    }
+    },[isOpenCreate]) 
+        
 
     function navigatePage(id){
         navigate(`/shopping/${id}`)

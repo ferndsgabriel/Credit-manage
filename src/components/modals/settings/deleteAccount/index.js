@@ -11,27 +11,25 @@ function DeleteAccount({ isOpen, closeModal }) {
     const userRef = doc(db, "Users", userData.Uid);
 
     async function handleDelete(e) {
-        setLoading(true);
         e.preventDefault();
+        setLoading(true);
 
         try {
             const personaQuery = query(collection(db, "Personas"), where('UserRef', '==', userRef));
             const cardQuery = query(collection(db, "Cards"), where('UserRef', '==', userRef));
             const shoppingQuery = query(collection(db, "Shoppings"), where('UserRef', '==', userRef));
-            const userQuery = query(collection(db, "Users"), where('Uid', '==', userData.Uid));
 
-            const [getCard, getShopping, getPersonas, getUser] = await Promise.all([
+            const [getCard, getShopping, getPersonas] = await Promise.all([
                 getDocs(cardQuery),
                 getDocs(shoppingQuery),
-                getDocs(personaQuery),
-                getDocs(userQuery)
+                getDocs(personaQuery)
             ]);
+
 
             const deleteDocuments = async (docs) => {
                 const deletePromises = docs.map(doc => deleteDoc(doc.ref));
                 await Promise.all(deletePromises);
             };
-
             await deleteDocuments(getCard.docs);
             console.log('Cartões deletados');
 
@@ -40,24 +38,25 @@ function DeleteAccount({ isOpen, closeModal }) {
 
             await deleteDocuments(getPersonas.docs);
             console.log('Personas deletadas');
-
-            await deleteDocuments(getUser.docs);
-            console.log('Usuário deletado');
-
+            await deleteDoc(userRef);
+            console.log('Documento do usuário deletado do Firestore');
             const user = auth.currentUser;
             if (user) {
-                await signOut(auth);
                 await user.delete();
                 console.log('Usuário deletado com sucesso.');
-                signout();
             } else {
-                console.log('Nenhum usuário está autenticado.');
+                console.log('Usuário não está mais autenticado.');
             }
+
+            await signOut(auth);
+            console.log('Usuário deslogado');
+            signout();
+            
         } catch (error) {
             console.error('Erro ao deletar documentos ou usuário: ', error);
         } finally {
             setLoading(false);
-            closeModal(); 
+            closeModal();
         }
     }
 
