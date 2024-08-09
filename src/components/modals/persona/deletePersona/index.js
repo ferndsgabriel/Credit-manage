@@ -25,7 +25,7 @@ function DeletePersona({ isOpen, closeModal, personaId, personaName }) {
                 const firstDoc = getQuery.docs[0];
                 const docRef = doc(db, "Personas", firstDoc.id);
 
-                const queryShopping = query(collection(db, "Shopping"), where('PersonaRef', '==', docRef));
+                const queryShopping = query(collection(db, "Shoppings"), where('PersonaRef', '==', docRef));
                 const getShopping = await getDocs(queryShopping);
 
                 if (!getShopping.empty) {
